@@ -36,7 +36,7 @@ def perbaikiKromosom(pop):
             krom[random.choice(bit_1)] = 0
 
 def solusiTerbaik(pop):
-    fitness_tertinggi, krom_terbaik = max(((hitungFitness(krom), krom) for krom in pop))
+    fitness_tertinggi, krom_terbaik = max(((hitungFitness(krom), krom) for krom in pop), key=lambda x: x[0])
     item_terpilih, bobot_item, profit_item = [], [], []
     for i, (item, bobot, profit) in enumerate(ITEM_KNAPSACK):
         if krom_terbaik[i] == 1:
@@ -48,7 +48,7 @@ def solusiTerbaik(pop):
 def seleksi(pop):
     # Grup dengan n kromosom
     grup_krom = random.sample(pop, UK_GRUP)
-    fitness_krom_terpilih, krom_terpilih = max(((hitungFitness(krom), krom) for krom in grup_krom))
+    fitness_krom_terpilih, krom_terpilih = max(((hitungFitness(krom), krom) for krom in grup_krom), key=lambda x: x[0])
     return krom_terpilih
 
 def crossover(krom1, krom2):
