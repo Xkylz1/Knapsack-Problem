@@ -44,23 +44,7 @@ def perbaikiKromosom(pop):
 
 def solusiTerbaik(pop):
     fitness_tertinggi, krom_terbaik = max(((hitungFitness(krom), krom) for krom in pop), key=lambda x: x[0])
-    # print(f"Fitness tertinggi: {fitness_tertinggi}")
-    # print(f"Kromosom terbaik: {krom_terbaik}")
-
-    item_terpilih, bobot_item, profit_item = [], [], []
-    for i, (_, bobot, profit) in enumerate(ITEM_KNAPSACK):
-        if krom_terbaik[i] == 1:
-            item_terpilih.append(ITEM_KNAPSACK[i][0])  # Add the item name
-            bobot_item.append(bobot)
-            profit_item.append(profit)
-    # print(f"Item terpilih: {item_terpilih}")
-    # print(f"Bobot item: {bobot_item}")
-    # print(f"Profit item: {profit_item}")
-
-    return krom_terbaik, fitness_tertinggi, item_terpilih, bobot_item, profit_item
-
-
-
+    return krom_terbaik, fitness_tertinggi
 
 def seleksi(pop):
     # Grup dengan n kromosom
@@ -113,6 +97,15 @@ def bentukPopulasiBaru(pop):
         pop_baru.append(anak_krom2)
     return pop_baru[:UK_POP]
 
+def updateHasil(krom_terbaik):
+    item_terpilih, bobot_item, profit_item = [], [], []
+    for i, (_, bobot, profit) in enumerate(ITEM_KNAPSACK):
+        if krom_terbaik[i] == 1:
+            item_terpilih.append(ITEM_KNAPSACK[i][0])  # Add the item name
+            bobot_item.append(bobot)
+            profit_item.append(profit)
+    return item_terpilih, bobot_item, profit_item
+
 # Inisialisasi
 populasi = [[random.randint(0, 1) for _ in range(BANYAK_ITEM)] for _ in range(UK_POP)]
 generasi = 0
@@ -126,7 +119,7 @@ while True:
     generasi += 1
     
     # Evaluasi populasi baru untuk mendapatkan solusi terbaik
-    krom_terbaik_baru, fitness_tertinggi_baru, item_terpilih_baru, bobot_item_baru, profit_item_baru = solusiTerbaik(populasi)
+    krom_terbaik_baru, fitness_tertinggi_baru = solusiTerbaik(populasi)
     
     print(f"Generasi {generasi}")
     print(f"Fitness tertinggi baru: {fitness_tertinggi_baru}")
@@ -135,9 +128,7 @@ while True:
         # Solusi yang lebih baik ditemukan
         krom_terbaik = krom_terbaik_baru
         fitness_tertinggi = fitness_tertinggi_baru
-        item_terpilih = item_terpilih_baru
-        bobot_item = bobot_item_baru
-        profit_item = profit_item_baru
+        item_terpilih, bobot_item, profit_item = updateHasil(krom_terbaik)
         generasi_stabil = 0
         print("Solusi baru ditemukan, generasi stabil direset.")
     else:
@@ -153,6 +144,9 @@ while True:
         # Maksimum generasi tercapai => hentikan proses
         print("Max generasi tercapai.")
         break
+
+# Update hasil berdasarkan kromosom terbaik
+item_terpilih, bobot_item, profit_item = updateHasil(krom_terbaik)
 
 # Output hasil terbaik
 print(f"Jumlah generasi: {generasi}")
