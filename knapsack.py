@@ -44,13 +44,7 @@ def perbaikiKromosom(pop):
 
 def solusiTerbaik(pop):
     fitness_tertinggi, krom_terbaik = max(((hitungFitness(krom), krom) for krom in pop), key=lambda x: x[0])
-    item_terpilih, bobot_item, profit_item = [], [], []
-    for i, (_, bobot, profit) in enumerate(ITEM_KNAPSACK):
-        if krom_terbaik[i] == 1:
-            item_terpilih.append(ITEM_KNAPSACK[i][0])
-            bobot_item.append(bobot)
-            profit_item.append(profit)
-    return krom_terbaik, fitness_tertinggi, item_terpilih, bobot_item, profit_item
+    return krom_terbaik, fitness_tertinggi
 
 def seleksi(pop):
     # Grup dengan n kromosom
@@ -109,15 +103,14 @@ generasi = 0
 generasi_stabil = 0
 fitness_tertinggi = 0
 krom_terbaik = []
-item_terpilih, bobot_item, profit_item = [], [], []
 
 while True:
     populasi = bentukPopulasiBaru(populasi)
     generasi += 1
-    krom_terbaik_baru, fitness_tertinggi_baru, item_terpilih_baru, bobot_item_baru, profit_item_baru = solusiTerbaik(populasi)
+    krom_terbaik_baru, fitness_tertinggi_baru = solusiTerbaik(populasi)
     if fitness_tertinggi_baru != fitness_tertinggi:
         # Solusi yang lain ditemukan
-        krom_terbaik, fitness_tertinggi, item_terpilih, bobot_item, profit_item = krom_terbaik_baru, fitness_tertinggi_baru, item_terpilih_baru, bobot_item_baru, profit_item_baru
+        krom_terbaik, fitness_tertinggi = krom_terbaik_baru, fitness_tertinggi_baru
         generasi_stabil = 0
     else:
         generasi_stabil += 1
@@ -139,14 +132,12 @@ item_terpilih = [ITEM_KNAPSACK[i][0] for i in range(BANYAK_ITEM) if krom_terbaik
 bobot_item = [ITEM_KNAPSACK[i][1] for i in range(BANYAK_ITEM) if krom_terbaik[i] == 1]
 profit_item = [ITEM_KNAPSACK[i][2] for i in range(BANYAK_ITEM) if krom_terbaik[i] == 1]
 
-print(f"Item terpilih: {item_terpilih}")
-# Summing the arrays
+# Hitung total bobot dan profit
 total_bobot = sum(bobot_item)
 total_profit = sum(profit_item)
 
-# Printing the arrays and their sums
+print(f"Item terpilih: {item_terpilih}")
 print(f"Bobot item: {bobot_item}")
-print(f"Total bobot: {total_bobot}")
-
 print(f"Profit item: {profit_item}")
+print(f"Total bobot: {total_bobot}")
 print(f"Total profit: {total_profit}")
