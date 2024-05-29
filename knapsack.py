@@ -1,21 +1,28 @@
 import random
 
 # Konstanta
-KAP_KNAPSACK = 15  # Kapasitas knapsack
-BANYAK_ITEM = 4  # Jumlah item
+KAP_KNAPSACK = 25  # Kapasitas knapsack
+BANYAK_ITEM = 10  # Jumlah item
 ITEM_KNAPSACK = [
     ("Barang 1", 3, 2),
     ("Barang 2", 7, 2),
     ("Barang 3", 4, 1),
-    ("Barang 4", 2, 3)
+    ("Barang 4", 2, 3),
+    ("Barang 5", 5, 4),
+    ("Barang 6", 6, 3),
+    ("Barang 7", 1, 5),
+    ("Barang 8", 8, 1),
+    ("Barang 9", 3, 6),
+    ("Barang 10", 4, 2)
 ]
+
 UK_GRUP = 5  # Ukuran grup untuk seleksi
 UK_POP = 20  # Ukuran populasi
 PERS_ELIT = 10  # Persentase elit
 PROB_CROSSOVER = 0.7  # Probabilitas crossover
 PROB_MUTASI = 0.1  # Probabilitas mutasi
 MAX_GEN_STABIL = 50  # Maksimum generasi stabil
-MAX_BANYAK_GEN = 100  # Maksimum jumlah generasi
+MAX_BANYAK_GEN = 1000  # Maksimum jumlah generasi
 
 def hitungFitness(krom):
     fitness = 0.0
@@ -38,12 +45,14 @@ def perbaikiKromosom(pop):
 def solusiTerbaik(pop):
     fitness_tertinggi, krom_terbaik = max(((hitungFitness(krom), krom) for krom in pop), key=lambda x: x[0])
     item_terpilih, bobot_item, profit_item = [], [], []
-    for i, (item, bobot, profit) in enumerate(ITEM_KNAPSACK):
+    for i, (_, bobot, profit) in enumerate(ITEM_KNAPSACK):
         if krom_terbaik[i] == 1:
-            item_terpilih.append(item)
+            item_terpilih.append(ITEM_KNAPSACK[i][0])  # Add the item name
             bobot_item.append(bobot)
             profit_item.append(profit)
     return krom_terbaik, fitness_tertinggi, item_terpilih, bobot_item, profit_item
+
+
 
 def seleksi(pop):
     # Grup dengan n kromosom
@@ -123,6 +132,7 @@ while True:
         break
 
 # Output hasil terbaik
+print(generasi)
 print(f"Kromosom terbaik: {krom_terbaik}")
 print(f"Fitness tertinggi: {fitness_tertinggi}")
 print(f"Item terpilih: {item_terpilih}")
