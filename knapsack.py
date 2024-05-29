@@ -140,5 +140,13 @@ bobot_item = [ITEM_KNAPSACK[i][1] for i in range(BANYAK_ITEM) if krom_terbaik[i]
 profit_item = [ITEM_KNAPSACK[i][2] for i in range(BANYAK_ITEM) if krom_terbaik[i] == 1]
 
 print(f"Item terpilih: {item_terpilih}")
+# Summing the arrays
+total_bobot = sum(bobot_item)
+total_profit = sum(profit_item)
+
+# Printing the arrays and their sums
 print(f"Bobot item: {bobot_item}")
+print(f"Total bobot: {total_bobot}")
+
 print(f"Profit item: {profit_item}")
+print(f"Total profit: {total_profit}")
