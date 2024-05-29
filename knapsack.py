@@ -1,9 +1,14 @@
 import random
 
 # Konstanta
-KAP_KNAPSACK = 50  # Kapasitas knapsack
-BANYAK_ITEM = 10  # Jumlah item
-ITEM_KNAPSACK = [(i, random.uniform(1, 10), random.uniform(10, 100)) for i in range(BANYAK_ITEM)]
+KAP_KNAPSACK = 15  # Kapasitas knapsack
+BANYAK_ITEM = 4  # Jumlah item
+ITEM_KNAPSACK = [
+    ("Barang 1", 3, 2),
+    ("Barang 2", 7, 2),
+    ("Barang 3", 4, 1),
+    ("Barang 4", 2, 3)
+]
 UK_GRUP = 5  # Ukuran grup untuk seleksi
 UK_POP = 20  # Ukuran populasi
 PERS_ELIT = 10  # Persentase elit
